@@ -31,7 +31,7 @@ list = []
 @app.route('/filter1', methods=['POST', 'GET'])
 def filter1():
     number = int(request.form["number"])
-    f = open("Grimm.txt", "r", errors='ignore')
+    f = open("./Grimm.txt", "r", errors='ignore')
     data_file = f.read()
     sentences = nltk.sent_tokenize(data_file)
     for i in range(len(sentences)):
@@ -59,8 +59,16 @@ def filter2():
     filedata = filedata.replace(rtxt, rtxt1)
     with open('Grimm.txt', 'w') as file:
         file.write('filedata.txt', 'r')
-
-    return render_template('2.html')
+    f = open("Grimm.txt", "r", errors='ignore')
+    data_file = f.read()
+    sentences = nltk.sent_tokenize(data_file)
+    for i in range(len(sentences)):
+        tokens = nltk.word_tokenize(sentences[i])
+        for word in tokens:
+            if(word == rtxt1):
+                list.append(sentences[i])
+    new_list = list[:8]
+    return render_template('2.html', lst=new_list, len=range(new_list))
 
 
 if __name__ == '__main__':
