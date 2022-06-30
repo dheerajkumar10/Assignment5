@@ -52,24 +52,17 @@ def filter1():
 def filter2():
     rtxt = request.form['rtxt']
     rtxt1 = request.form['rtxt1']
-    f = open("Akamo.txt", "r")
+    f = open("./Alamo.txt", "r", encoding="utf8")
     data_file = f.read()
 
-    sentences = nltk.sent_tokenize(data_file)
-
-    filedata = filedata.replace(rtxt, rtxt1)
-    with open('Grimm.txt', 'w') as file:
-        file.write('filedata.txt', 'r')
-    f = open("Grimm.txt", "r", errors='ignore')
-    data_file = f.read()
-    sentences = nltk.sent_tokenize(data_file)
-    for i in range(len(sentences)):
-        tokens = nltk.word_tokenize(sentences[i])
-        for word in tokens:
-            if(word == rtxt1):
-                list.append(sentences[i])
-    new_list = list[:8]
-    return render_template('2.html', lst=new_list, len=range(new_list))
+    data_file = data_file.replace(rtxt, rtxt1)
+    with open('./Alamo1.txt', 'w', encoding="utf8") as file:
+        file.write(data_file)
+    f1 = open("./Alamo1.txt", "r", errors='ignore', encoding="utf8")
+    data_file1 = f1.read()
+    sentences = nltk.sent_tokenize(data_file1)
+    new_list = sentences[:5]
+    return render_template('2.html', lst=new_list, len=len(new_list))
 
 
 if __name__ == '__main__':
