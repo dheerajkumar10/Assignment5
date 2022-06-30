@@ -49,19 +49,18 @@ def filter1():
     return render_template('1.html', data=res, len=len(res))
 
 
-@app.route('/send', methods=['POST', 'GET'])
-def send():
-    searchtext = request.form['searchtext']
-    searchTextFirst = searchtext.split(" ")[0]
-    msg = "Search results for "+searchtext
-    lst = []
-    if searchTextFirst in dict:
-        first = dict[searchTextFirst]
-        for value in first:
-            if searchtext in value['sentence']:
-                lst.append(value)
-    print(lst)
-    return render_template('2.html', msg=msg, lst=lst)
+@app.route('/filter2', methods=['POST', 'GET'])
+def filter2():
+    rtxt = request.form['rtxt']
+    rtxt1 = request.form['rtxt1']
+    with open('Grimm.txt', 'r') as file:
+        filedata = file.read()
+
+    filedata = filedata.replace(rtxt, rtxt1)
+    with open('Grimm.txt', 'w') as file:
+        file.write('filedata.txt', 'r')
+
+    return render_template('2.html')
 
 
 if __name__ == '__main__':
