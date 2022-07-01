@@ -26,7 +26,11 @@ def search():
     return render_template('2.html')
 
 
-testdict = {}
+@app.route('/3')
+def search1():
+    return render_template('3.html')
+
+
 list = []
 with open('./SpanishStopWords.txt', 'r') as f1:
     stopWords = f1.readlines()
@@ -35,8 +39,10 @@ with open('./SpanishStopWords.txt', 'r') as f1:
 
 @app.route('/filter1', methods=['POST', 'GET'])
 def filter1():
+    testdict = {}
     with open('./Alamo.txt', 'r', encoding="utf8") as file:
-        sentences = file.readlines()
+        data_file = file.read()
+        sentences = nltk.sent_tokenize(data_file)
         for i in range(len(sentences)):
             tokens = nltk.word_tokenize(sentences[i])
             for word in tokens:
@@ -45,6 +51,7 @@ def filter1():
                         testdict[word] = 1
                     else:
                         testdict[word] = testdict[word]+1
+                    print(testdict[word])
     return render_template('1.html', data=testdict)
 
 
@@ -61,8 +68,20 @@ def filter2():
     f1 = open("./Alamo1.txt", "r", errors='ignore', encoding="utf8")
     data_file1 = f1.read()
     sentences = nltk.sent_tokenize(data_file1)
-    new_list = sentences[:5]
+    for i in range(len(sentences)):
+        tokens = nltk.word_tokenize(sentences[i])
+        for word in tokens:
+            if(word == rtxt1):
+                list.append(sentences[i])
+    new_list = list[:5]
     return render_template('2.html', lst=new_list, len=len(new_list))
+
+
+@app.route('/filter3', methods=['POST', 'GET'])
+def filter3():
+    number = request.form['number']
+
+    return render_template('1.html', data=testdict)
 
 
 if __name__ == '__main__':
