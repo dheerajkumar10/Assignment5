@@ -81,7 +81,7 @@ def filter2():
 def filter3():
     testdict = {}
     number = request.form['number']
-    f = open("./Alamo.txt", "r", errors='ignore')
+    f = open("./Alamo.txt", "r", errors='ignore', encoding="utf8")
     data_file = f.read()
     sentences = nltk.sent_tokenize(data_file)
     for i in range(len(sentences)):
