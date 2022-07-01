@@ -79,9 +79,25 @@ def filter2():
 
 @app.route('/filter3', methods=['POST', 'GET'])
 def filter3():
+    testdict = {}
     number = request.form['number']
-
-    return render_template('1.html', data=testdict)
+    f = open("./Alamo.txt", "r", errors='ignore')
+    data_file = f.read()
+    sentences = nltk.sent_tokenize(data_file)
+    for i in range(len(sentences)):
+        sentences[i] = re.sub(r'[^\w\s]+', ' ', sentences[i])
+        pattern = r'[0-9]'
+        sentences[i] = re.sub(pattern, '',  sentences[i])
+        tokens = nltk.word_tokenize(sentences[i])
+        for word in tokens:
+            if word.isupper():
+                if word not in testdict:
+                    testdict[word] = 1
+                else:
+                    testdict[word] = testdict[word]+1
+    res = dict(sorted(testdict.items(),
+               key=itemgetter(1), reverse=True)[:number])
+    return render_template('3.html', data=res)
 
 
 if __name__ == '__main__':
